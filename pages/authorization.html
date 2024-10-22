@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Не Сам-Авторизация</title>
+    <link rel="stylesheet" href="../styles/stiles_for_Main.css">
+</head>
+<body>
+    <header class="header">
+    </header>
+    <main>
+        <h1 class="noViolationsM">Мой Не Сам</h1>
+        <h1 class="noViolationsS">Вход</h1>
+        <form action="../remote/remote.php" method="post">
+            <input type="hidden" value="authorization.html" name="page" />
+            <div class="contBlur"><input type="text" name="user" id="user" placeholder="Логин"><div class="blurS"></div></div>
+            <div class="contBlur"><input type="password" name="password" id="password" placeholder="Пароль"><div class="blurS"></div></div>
+            <div class="contBlur"><input type="submit" value="Войти"><div class="blur"></div></div>
+        </form>
+        <section id="links">
+            <a class="reg" href="./registration.html"><h2 class="text t2">Зарегестрироваться</h2><img class="str" src="../Additional_Files/Images/str.png" alt=""><div class="blur"></div></a>
+        </section>
+    </main>
+    <footer></footer>
+</body>
+</html>
