@@ -1,0 +1,25 @@
+if ($_POST['service']=='Иная услуга') {
+        $other_service = $conn-> real_escape_string($_POST['other_service']);
+        $sql ="INSERT INTO bid(address, phone, data, time, service, payment, user_id) VALUES ('$address', '$phone', '$data', '$time', '$other_service', '$payment', $id_user)";
+        if ($conn->query($sql))
+        {
+            header("location:bid.php");
+        }
+    }
+
+<script type='text/javascript'>
+     $(function (){
+    $("#services").change(function(){
+        var o=$("#other_input");
+        if (this.value=='Иная услуга') {
+            o.show();
+        } else {
+            o.hide();
+        };
+    });
+});
+
+
+        </script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
