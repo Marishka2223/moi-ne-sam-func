@@ -1,185 +1,78 @@
 <?php
-session_start();
-require("../remote/pd.php");
-$sql = "SELECT * FROM bid_pr WHERE bid_id='" . $_GET['massage_id'] . "'";
-$result2 = $pdo->query($sql)->fetch();
 
-$sql = null;
+session_start();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Нарушениям.Нет-Главная</title>
-    <link rel="stylesheet" href="../styles/stiles_for_Main.css">
-    <script src="../javaScript/Ways.js"></script>
-    <script>let c = 0;</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная заказов</title>
 </head>
-
 <body>
-    <header>
-        <a href="main.html" class="noViolations">
-            <h1 class="noViolations">Нарушениям.Нет</h1>
-        </a>
-        <button class="settings">
-            <img src="../Additional_Files/Images/Dem_exam_pr-site-Narusheniy.net-settings.png" alt="">
-        </button>
-    </header>
-    <main>
-        <h1 style="text-align: center;">Изменение заявления</h1>
-        <form id="form" method="post" action="">
-            <div class="contBlur"><input type="text" name="num" value="<?php echo $result2['Cornumber']; ?>" id="num"
-                    placeholder="Номер автомобиля" required>
-                <div class="blurS"></div>
-            </div>
-            <div class="contBlur"><input type="text" name="mark" value="<?php echo $result2['Mark']; ?>" id="mark"
-                    placeholder="Марка" required>
-                <div class="blurS"></div>
-            </div>
-            <div class="contBlur"><textarea name="nar" id="nar" placeholder="Нарушение"
-                    required><?php echo $result2['Description']; ?></textarea>
-                <div class="blurS"></div>
-            </div>
-            <div class="contBlur">
-                <div class="blurS"></div>
-            </div>
-            <div class="contBlur"><input type="text" value="<?php echo $result2['location']; ?>" name="local" id="local"
-                    placeholder="Место" required>
-                <div class="blurS"></div>
-            </div>
-            <div class="contBlur"><input type="submit" value="Сохранить">
-                <div class="blur"></div>
-            </div>
-        </form>
-        <div id="request"></div>
-        <section id="links">
-            <a class="newMassage" href="<?php echo '../pages/feedback_Form.php?id='.$_GET['id'] ?>">
-                <h2 class="text">Новое заявление</h2>
-                <div class="blur"></div>
-            </a>
-            <a class="contactUs" href="../pages/about_Us.php">
-                <h2 class="text">Связаться с нами</h2>
-                <div class="blur"></div>
-            </a>
-        </section>
-    </main>
-    <footer></footer>
-</body>
 
-</html>
-<script>
+<header style="display: flex; background-color: rgba(27, 27, 27, 0.82);color: white; align-items: center; flex-wrap: row; gap: 25px; padding: 20px; max-height: 30px; ">
 
-    array = ['num', 'mark', 'nar', 'local'];
-    mass = ['Номер автомобиля', 'Марка', ' Нарушение', 'Место']
-    pattern = [/^[a-zA-Z0-9]{3,20}[^!@#$%^&*()_\-=+\|\\/':;]$/m,
-        /^[a-zA-Z0-9А-Яа-я]{0,50}[^!@#$%\^&*()_+=-?:;№\|\/\\>]$/m,
-        /^[a-zA-Z0-9А-Яа-я\s]{5,255}[^!@#$%\^&*()_+=-?:;№\|\/\\>]$/m,
-        /^[a-zA-Z0-9А-Яа-я.\s]{3,50}[^!@#$%\^&*()_+=-?:;№\|\/\\>]$/m
-    ];
-    form.addEventListener('submit', function (event) {
-        let flag = true;
-        if (document.querySelector('.blurSErr')) {
-            document.querySelector('.blurSErr').classList.add('blurS')
-            document.querySelector('.blurSErr').classList.remove('blurSErr')
-        }
-        let indexCount = 0;
-        array.forEach(element => {
-            if (!flag)
-                return;
-            console.log(`${pattern[indexCount]}` + ' ' + `${document.getElementById(element).value}` + ' = ')
-            console.log(pattern[indexCount].test(`${document.getElementById(element).value}`));
-            if (!pattern[indexCount].test(`${document.getElementById(element).value}`)) {
-                // console.log(element)
-                flag = false;
-                let massage = '';
-                if (array[indexCount] == 'mark' || array[indexCount] == 'local') {
-                    if (document.getElementById(element).value.length <= 2) {
-                        massage = 'не может содержать менее 3 или более 50 символов!';
-                    }
-                    else {
-                        massage = 'не может содержать спецсимволов, точек и т.д.!';
-                    }
-                }
-                if (array[indexCount] == 'num') {
-                    if (document.getElementById(element).value.length <= 3) {
-                        massage = 'не может содержать менее 3 или более 20 символов!';
-                    }
-                    else {
-                        massage = 'не может содержать спецсимволов, слов ,точек и т.д.!';
-                    }
-                }
-                if (array[indexCount] == 'nar') {
-                    if (document.getElementById(element).value.length <= 6) {
-                        massage = 'не может содержать менее 6 или более 255 символов!';
-                    }
-                    else {
-                        massage = 'не может содержать спецсимволов, точек и т.д.!';
-                    }
-                }
-                document.getElementById(element).parentElement.querySelector('.blurS').classList.add('blurSErr')
-                document.getElementById(element).parentElement.querySelector('.blurS').classList.remove('blurS')
-                document.getElementById('err').innerHTML = `<div class="contBlur"><h3 class="err">Ошибка: Поле ${mass[indexCount]} ${massage}</h3><div class="blurSErr"></div></div>`;
-                indexCount++;
-                return false;
-            }
-            indexCount++;
-        });
-        if (flag === false)
-            event.preventDefault();
-    });
-    </script>
+     <h1>TechStore</h1>
+
+    <a href="./maine.php" style="color: white; margin-left: 30%; font-size: 1.5em">Главная</a>
+    <a href="./acc.php" style="color: white; font-size: 1.5em">Корзина</a>
+
     <?php
 
-    if (isset($_POST["num"]) && isset($_POST["mark"]) && isset($_POST["nar"]) && isset($_POST['local']) && ($_POST["num"] != $result2['Cornumber'] || $_POST["mark"] != $result2['Mark'] || $_POST["nar"] != $result2['Description'] || $_POST["local"] != $result2['location'])) {
-        $variable = [$_POST["num"], $_POST["mark"], $_POST["nar"], $_POST['local']];
-        $variablePatterns = [
-            '/^[a-zA-Z0-9]{3,20}[^!@#$%^&*()_\-=+\|\\/\':;]$/m',
-            '/^[a-zA-Z0-9А-Яа-я]{0,50}[^!@#$%\^&*()_+=-?:;№\|\/\\>]$/mu',
-            '/^[a-zA-Z0-9А-Яа-я\s]{5,255}[^!@#$%\^&*()_+=-?:;№\|\/\\>]$/mu',
-            '/^[a-zA-Z0-9А-Яа-я.\s]{5,50}[^!@#$%\^&*()_+=-?:;№\|\/\\>]$/mu'
-        ];
-        $i = 0;
-        $flag = true;
-        foreach ($variable as $key) {
-            if ($key == '' || !preg_match($variablePatterns[$i], $key)) {
-                $flag = false;
-                echo "<h3 style='color: white;'>Данные занесены не верно</h3>";
-                break;
-            }
-            $i += 1;
-        }
-        if ($flag) {
+ if (isset($_SESSION['shooterki']) && $_SESSION['shooterki'] === '7') {
+     echo '<a href="./admin.php" style="color: white; font-size: 1.5em">Админ панель</a>';
+ }
 
-                $user = $_SESSION['id'];
-                $sql = "SELECT * FROM bid_pr WHERE Bid_id='" . $_GET['massage_id'] . "'";
-                $result = $pdo->query($sql);
-                if ($result->rowCount() == 0) {
-                    header('location: ./logout.php');
-                }
-                $query = "INSERT INTO `log_pr`(`date`, `last date`, `time`, `User_id`, `last_number`, `new_number`) VALUES ('" . date('d/m/Y') . "','" . $result2['date'] . "','" . date('H:i:s', time()) . "','" . $result2['User_id'] . "','" . $result2['Cornumber'] . "','" . $_POST["num"] . "')";
-                $result = $pdo->query($query);
-                if ($result->rowCount() == 0) {
-                    header('location: ./logout.php');
-                }
-                $query = "UPDATE `bid_pr` SET `Cornumber`= '" . $_POST["num"] . "',`Description`='" . $_POST["nar"] . "',`Status`='На рассмотрении',`User_id`='$user',`image`='',`location`='" . $_POST["local"] . "',`Mark`='" . $_POST["mark"] . "',`date`='" . date('d/m/Y') . "',`time`='" . date('H:i:s', time()) . "' WHERE `Bid_id`='" . $result2['Bid_id'] . "'";
-                $result = $pdo->query($query);
-                if ($result->rowCount() == 0) {
-                    header('location: ./logout.php');
-                }
-                $pdo = null;
-                ?>
-                    <script> alert('Нарушение на рассмотрении')</script>
-            <?php
-            if ($result !== false) {
-                ?>
-                <script>
-                    window.location = "<?php echo '../main.php?id='.$_GET['id']; ?>";
-                </script>
-                <?php
-                exit;
-            }
-            
+ if (isset($_SESSION['shooterki']) && $_SESSION['shooterki'] != '7') {
+    echo '<a href="./acc.php" style="color: white; font-size: 1.5em">Мой аккаунт</a>';
+}
+ ?>
+   <a href="./logout.php" style="color: white; font-size: 1.5em">Выйти</a>
+</header>
+
+     <h1 style=" text-align: center; font-size: 3.1em;">Каталог товаров</h1>
+    <?php
+// Подключение к базе данных
+$conn = new mysqli("localhost", "root", "root", "shooterki");
+
+if ($conn->connect_error) {
+    die("Ошибка: " . $conn->connect_error);
+}
+
+
+// Запрос к базе данных
+$query = "SELECT id, name, described, price, image, rate FROM tovar WHERE id > 0";
+$result = $conn->query($query);
+
+// Проверка, есть ли записи
+if ($result->num_rows > 0) {
+    // Вывод записей в ряд по 4
+    echo '<div style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px;">';
+    $count = 0;
+    while ($row = $result->fetch_assoc()) {
+        echo '<div style="flex: 1 1 50px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.47); padding: 15px; border-radius: 8px; text-align: center; width: 40px; flex-direction: row;">';
+        
+        echo '<img src="data:image/png;base64,' . base64_encode($row['image']) . '" width="200px" height="200px" style="border-radius: 8px;"/>';
+        echo '<h2 style="font-size: 1.5em; margin: 10px 0;">' . htmlspecialchars($row['name']) . '</h2>';
+        echo '<p style="font-size: 1em; color: #555; margin: 10px 0;">' . htmlspecialchars($row['described']) . '</p>';
+        echo '<p style="font-size: 1em; color: #333; margin: 10px 0;">Рейтинг: ' . htmlspecialchars($row['rate']) . '</p>';
+        echo '</div>';
+        
+        $count++;
+        if ($count % 4 == 0) {
+            echo '</div><div style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px;">';
         }
     }
+    echo '</div>';
+} else {
+    // Если записей нет
+    echo '<p style="text-align: center; font-size: 1.2em; color: #555; margin: 20px;">Товаров временно нет в наличии</p>';
+}
+
+// Закрытие соединения
+$conn->close();
+?> 
+</body>
+</html>
